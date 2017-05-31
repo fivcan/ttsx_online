@@ -39,18 +39,34 @@ $(function(){
 
 
 	function check_user_name(){
-		var len = $('#user_name').val().length;
+		var $name = $('#user_name');
+		var len = $name.val().length;
 		if(len<5||len>20)
 		{
-			$('#user_name').next().html('请输入5-20个字符的用户名')
-			$('#user_name').next().show();
+			$name.next().html('请输入5-20个字符的用户名');
+			$name.next().css({'color':'#e62e2e'});
+			$name.next().show();
 			error_name = true;
 		}
 		else
 		{
 			$('#user_name').next().hide();
-			error_name = false;
+			$.get('/user_center/is_registed/', {'user_name': $name.val()}, function (data) {
+			if(data == 'exist'){
+				$name.next().html('用户名已存在, 请更换新的用户名');
+				$name.next().css({'color':'#e62e2e'});
+				$name.next().show();
+				error_name = true;
+			}else{
+				$name.next().html('用户名可以注册');
+				$name.next().show();
+				$name.next().css({'color':'green'});
+				error_name = false;
+			}
+        })
 		}
+
+
 	}
 
 	function check_pwd(){
@@ -105,13 +121,12 @@ $(function(){
 	}
 
 
-
-
 	$('#register_submit').click(function(){
 		check_user_name();
 		check_pwd();
 		check_cpwd();
 		check_email();
+		// alert([error_name,error_password,error_check_password,error_email])
 		if(error_name == true || error_password == true || error_check_password == true || error_email == true || error_check == true)
 		{
 			return false;
@@ -122,5 +137,4 @@ $(function(){
 
 
 
-
-})
+});
