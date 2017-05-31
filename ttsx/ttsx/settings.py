@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'user_center',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -77,7 +78,7 @@ WSGI_APPLICATION = 'ttsx.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'booktest',
+        'NAME': 'ttsx',
         'HOST': 'localhost',
         'PORT': '3306',
         'USER': 'root',
