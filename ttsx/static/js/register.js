@@ -105,25 +105,19 @@ $(function(){
 	}
 
 
-	$('#reg_form').submit(function() {
+
+
+	$('#register_submit').click(function(){
 		check_user_name();
 		check_pwd();
 		check_cpwd();
 		check_email();
-
-		if(error_name == false && error_password == false && error_check_password == false && error_email == false && error_check == false)
-		{
-			return true;
-		}
-		else
+		if(error_name == true || error_password == true || error_check_password == true || error_email == true || error_check == true)
 		{
 			return false;
 		}
 
-	});
-
-
-
+	})
 
 
 
