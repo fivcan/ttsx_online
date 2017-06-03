@@ -5,7 +5,9 @@ from django.http import HttpResponse
 # Create your views here.
 
 def index(request):
-    return render(request, 'user_center/index.html')
+    logined_username = request.COOKIES.get('logined_username', '')
+    context = {'username': logined_username}
+    return render(request, 'user_center/index.html', context)
 
 def register(request):
     return render(request, 'user_center/register.html')
@@ -45,10 +47,61 @@ def login2(request):
         return HttpResponse('fault username')
 
     if pwd == userinfo[0].pwd:
-        return HttpResponse('login success')
+        response = HttpResponse('login success')
+        response.set_cookie('logined_username', user_name, 1800)
+        return response
     else:
         return HttpResponse('fault password')
 
+def user_center_info(request):
+    user = request.COOKIES.get('logined_username', 'moren')
+    userinfo = UserInfo.objects.filter(user=user)
+    if userinfo:
+        userinfo = userinfo[0]
+        address = userinfo.address
+        tel = userinfo.tel
+        postcode = userinfo.postcode
+        receiver = userinfo.receiver
+        context = {'username': user, 'receiver': receiver, 'address': address, 'tel': tel, 'postcode': postcode}
+    else:
+        context = {}
+    return render(request, 'user_center/user_center_info.html', context)
 
+def user_center_order(request):
+    logined_username = request.COOKIES.get('logined_username', '')
+    context = {'username': logined_username}
+    return render(request, 'user_center/user_center_order.html', context)
 
+def user_center_site(request):
+    user = request.COOKIES.get('logined_username', 'moren')
+    userinfo = UserInfo.objects.filter(user=user)
+    if userinfo:
+        userinfo = userinfo[0]
+        address = userinfo.address
+        tel = userinfo.tel
+        postcode = userinfo.postcode
+        receiver = userinfo.receiver
+        context = {'username': user, 'receiver': receiver, 'address': address, 'tel': tel, 'postcode': postcode}
+    else:
+        context = {}
+    return render(request, 'user_center/user_center_site.html', context)
 
+def user_center_site_submit(request):
+    address = request.POST.get('address')
+    receiver = request.POST.get('receiver')
+    postcode = request.POST.get('postcode')
+    tel = request.POST.get('tel')
+    user = request.COOKIES.get('logined_username')
+    print(user)
+    userinfo = UserInfo.objects.get(user=user)
+    userinfo.address = address
+    userinfo.receiver = receiver
+    userinfo.postcode = postcode
+    userinfo.tel = tel
+    userinfo.save()
+    return redirect('/user_center/user_center_site/')
+
+def quit(request):
+    response = render(request, 'user_center/index.html')
+    response.set_cookie('logined_username', '', -1)
+    return response

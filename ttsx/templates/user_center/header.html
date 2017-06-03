@@ -1,0 +1,36 @@
+{%extends 'user_center/footer.html'%}
+
+{% block body %}
+<div class="header_con">
+		<div class="header">
+			<div class="welcome fl">欢迎来到天天生鲜!</div>
+			<div class="fr">
+				<div class="login_info fl">
+					欢迎您：<em>{{username}}</em> &nbsp;|&nbsp;
+					<em><a href="/user_center/quit/" style="color:#888">退出</a></em>
+				</div>
+				<div class="login_btn fl">
+					<a href="/user_center/login/">登录</a>
+					<span>|</span>
+					<a href="/user_center/register/">注册</a>
+				</div>
+				<div class="user_link fl">
+					<span>|</span>
+					<a href="/user_center/user_exists/">用户中心</a>
+					<span>|</span>
+					<a href="/user_center/cart/">我的购物车</a>
+					<span>|</span>
+					<a href="/user_center/user_center_order/">我的订单</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	{% block body_after_head %}
+	{% endblock body_after_head %}
+{% endblock body %}
+
+
+
+
+
