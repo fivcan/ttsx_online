@@ -1,0 +1,14 @@
+{%extends 'user_center/header.html'%}
+
+{% block body_after_head %}
+	{%include 'temp_top.html'%}
+
+    {% block body_after_search %}
+    {% endblock body_after_search %}
+
+
+{% include 'temp_recommend.html' %}
+
+    {% block body_after_recommend %}
+    {% endblock body_after_recommend %}
+{% endblock body_after_head %}

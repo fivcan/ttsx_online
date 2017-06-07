@@ -1,0 +1,12 @@
+        <script>
+			$(function () {
+				$.get('/cart/get_count/',function (data) {
+					$('.guest_cart #show_count').html(data.count)
+                })
+            })
+		</script>
+
+		<div class="guest_cart fr">
+			<a href="/cart/" class="cart_name fl">我的购物车</a>
+			<div class="goods_count fl" id="show_count">0</div>
+		</div>

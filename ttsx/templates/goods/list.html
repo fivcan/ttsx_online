@@ -1,0 +1,56 @@
+{%extends 'goods/search_recommend.html'%}
+
+{% block head %}
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>天天生鲜-商品列表</title>
+	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+	<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+
+
+{% endblock head %}
+
+{% block body_after_search %}
+<div class="main_wrap clearfix">
+{% endblock body_after_search %}
+
+{% block body_after_recommend %}
+		<div class="r_wrap fr clearfix">
+			<div class="sort_bar">
+				<a href="/goods/goods_more/?sort=1&tid={{data.0.gtype_id}}" class="{% if sort == '1' %} active {% endif %}">默认</a>
+				<a href="/goods/goods_more/?sort=2&tid={{data.0.gtype_id}}" class="{% if sort == '2' %} active {% endif %}">价格</a>
+				<a href="/goods/goods_more/?sort=3&tid={{data.0.gtype_id}}" class="{% if sort == '3' %} active {% endif %}">人气</a>
+			</div>
+
+			<ul class="goods_type_list clearfix">
+				{% for i in data %}
+				<li>
+					<a href="/goods/detail/?gid={{i.id}}"><img src="/static/{{ i.gpic }}"></a>
+					<h4><a href="/goods/detail/?gid={{i.id}}">{{ i.gtitle }}</a></h4>
+					<div class="operate">
+						<span class="prize">￥{{ i }}</span>
+						<span class="unit">{{ i.gprice }}/{{ i.gunit }}</span>
+						<a href="#" class="add_goods" title="加入购物车"></a>
+					</div>
+				</li>
+				{% endfor %}
+			</ul>
+
+			<div class="pagenation">
+				{% if data.has_previous%}
+				<a href="/goods/goods_more/?page={{data.number|add:'-1'}}&tid={{data.0.gtype_id}}&sort={{sort}}">上一页</a>
+				{%endif%}
+				{% for i in data.paginator.page_range %}
+					<a href="/goods/goods_more/?page={{i}}&tid={{data.0.gtype_id}}&sort={{sort}}"
+					   {% if i == data.number%}
+					   class="active"
+						{% endif %}
+					>{{i}}</a>
+				{% endfor %}
+				{%if data.has_next%}
+				<a href="/goods/goods_more/?page={{data.number|add:'1'}}&tid={{data.0.gtype_id}}&sort={{sort}}">下一页></a>
+				{%endif%}
+			</div>
+		</div>
+	</div>
+{% endblock body_after_recommend %}

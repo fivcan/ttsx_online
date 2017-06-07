@@ -2,12 +2,13 @@
 from django.shortcuts import render, redirect
 from models import *
 from django.http import HttpResponse
+from goods.models import *
 # Create your views here.
 
 def index(request):
     logined_username = request.COOKIES.get('logined_username', '')
     context = {'username': logined_username}
-    return render(request, 'user_center/index.html', context)
+    return render(request, 'goods/index.html', context)
 
 def register(request):
     return render(request, 'user_center/register.html')
@@ -42,18 +43,32 @@ def login2(request):
     pwd = gets.get('pwd')
 
     userinfo = UserInfo.objects.filter(user=user_name)
-    print(userinfo)
     if not userinfo:
         return HttpResponse('fault username')
 
     if pwd == userinfo[0].pwd:
         response = HttpResponse('login success')
-        response.set_cookie('logined_username', user_name, 1800)
+        response.set_cookie('logined_username', user_name, 18000)
         return response
     else:
         return HttpResponse('fault password')
 
 def user_center_info(request):
+    lately = request.COOKIES.get('lately','')
+    if lately == '':
+        lately_list = []
+    else:
+        lately_list = lately.split(',')
+    for i in range(len(lately_list)):
+        if lately_list[i] != '':
+            lately_list[i] = int(lately_list[i])
+        else:
+            lately_list.remove(lately_list[i])
+    lately_goods_list = []
+    for i in lately_list:
+        goodinfo = GoodsInfo.objects.get(id=i)
+        lately_goods_list.append(goodinfo)
+
     user = request.COOKIES.get('logined_username', 'moren')
     userinfo = UserInfo.objects.filter(user=user)
     if userinfo:
@@ -62,9 +77,9 @@ def user_center_info(request):
         tel = userinfo.tel
         postcode = userinfo.postcode
         receiver = userinfo.receiver
-        context = {'username': user, 'receiver': receiver, 'address': address, 'tel': tel, 'postcode': postcode}
+        context = {'username': user, 'receiver': receiver, 'address': address, 'tel': tel, 'postcode': postcode, 'lately': lately_goods_list}
     else:
-        context = {}
+        return redirect('/user_center/login/')
     return render(request, 'user_center/user_center_info.html', context)
 
 def user_center_order(request):
@@ -83,7 +98,7 @@ def user_center_site(request):
         receiver = userinfo.receiver
         context = {'username': user, 'receiver': receiver, 'address': address, 'tel': tel, 'postcode': postcode}
     else:
-        context = {}
+        return redirect('/user_center/login/')
     return render(request, 'user_center/user_center_site.html', context)
 
 def user_center_site_submit(request):
@@ -92,7 +107,6 @@ def user_center_site_submit(request):
     postcode = request.POST.get('postcode')
     tel = request.POST.get('tel')
     user = request.COOKIES.get('logined_username')
-    print(user)
     userinfo = UserInfo.objects.get(user=user)
     userinfo.address = address
     userinfo.receiver = receiver
@@ -102,6 +116,6 @@ def user_center_site_submit(request):
     return redirect('/user_center/user_center_site/')
 
 def quit(request):
-    response = render(request, 'user_center/index.html')
+    response = render(request, 'goods/index.html')
     response.set_cookie('logined_username', '', -1)
     return response

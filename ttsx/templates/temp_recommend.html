@@ -1,0 +1,14 @@
+		<div class="l_wrap fl clearfix">
+			<div class="new_goods">
+				<h3>新品推荐</h3>
+				<ul>
+					{% for i in recommand %}
+					<li>
+						<a href="/goods/detail/?gid={{i.id}}"><img src="/static/{{i.gpic}}"></a>
+						<h4><a href="/goods/detail/?gid={{i.id}}">{{i.gtitle}}</a></h4>
+						<div class="prize">￥{{i.gprice}}</div>
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
