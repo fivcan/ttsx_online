@@ -10,9 +10,6 @@
 	<script type="text/javascript" src="/static/js/slide.js"></script>
 	<script>
 		$(function () {
-		    $.get('')
-
-
 		    for(var i=0;i<6;i++) {
                 $('.goods_more:eq(' + i + ')').prop({'href': '/goods/goods_more/?tid=' + (i+1)});
                 $('.subnav li:nth-child('+ (i+1) +') a').prop({'href': '/goods/goods_more/?tid=' + (i+1)});

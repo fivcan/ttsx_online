@@ -89,6 +89,16 @@
 				}
             });
 
+			$('.settlements .col04').click(function () {
+			    var str = "/order/?hello=world";
+			    $('.cart_list_td').each(function (i) {
+			        if($(this).children('.col01').children().is(':checked')){
+			        	str += '&cid=' + $(this).children('#hidden_id').val()
+					}
+                });
+				$(this).children('a').prop('href', str)
+            })
+
         })
 	</script>
 </head>

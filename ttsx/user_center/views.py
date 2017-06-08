@@ -3,7 +3,8 @@ from django.shortcuts import render, redirect
 from models import *
 from django.http import HttpResponse
 from goods.models import *
-# Create your views here.
+from order.models import *
+from django.core.paginator import Paginator
 
 def index(request):
     logined_username = request.COOKIES.get('logined_username', '')
@@ -83,8 +84,13 @@ def user_center_info(request):
     return render(request, 'user_center/user_center_info.html', context)
 
 def user_center_order(request):
-    logined_username = request.COOKIES.get('logined_username', '')
-    context = {'username': logined_username}
+    page_num = request.GET.get('page', '1')
+    username = request.COOKIES.get('logined_username', '')
+    user = UserInfo.objects.filter(user=username)
+    order_list = OrderInfo.objects.filter(user=user)
+    paginator = Paginator(order_list,2)
+    page = paginator.page(int(page_num))
+    context = {'username': username, 'page':page}
     return render(request, 'user_center/user_center_order.html', context)
 
 def user_center_site(request):

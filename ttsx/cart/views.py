@@ -6,7 +6,7 @@ from cart.models import *
 
 
 def cart(request):
-    username = request.COOKIES.get('logined_username', 'hehe')
+    username = request.COOKIES.get('logined_username', '')
     if username == '':
         return redirect('/user_center/login/')
 

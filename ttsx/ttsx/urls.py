@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^goods/', include('goods.urls')),
     url(r'^search/', include('haystack.urls')),
     url(r'^cart/', include('cart.urls')),
-
+    url(r'^order/', include('order.urls')),
 
     # insert before this line
     url(r'^', include('goods.urls')),

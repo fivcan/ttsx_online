@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'goods',
     'haystack',
     'cart',
+    'order',
 )
 
 MIDDLEWARE_CLASSES = (
