@@ -31,7 +31,7 @@ def json_index(request):
 
 
 def detail(request):
-    username = request.COOKIES.get('logined_username')
+    username = request.COOKIES.get('logined_username','')
     gid = request.GET.get('gid')
     lately = request.COOKIES.get('lately', '')
     lately_list = lately.split(',')
@@ -50,7 +50,7 @@ def detail(request):
         recommand = GoodsInfo.objects.filter(gtype_id=tid).order_by('-id')[0:2]
         context = {'recommand':recommand, 'good': goodsinfo[0], 'type_name': type_name, 'username': username}
     else:
-        context = {}
+        context = {'username':'hello'}
     response = render(request, 'goods/detail.html', context)
     response.set_cookie('lately', str_lately)
     return response

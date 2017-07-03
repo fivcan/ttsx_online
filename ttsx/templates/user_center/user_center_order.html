@@ -66,8 +66,6 @@
 				{%endfor%}
 
 				<div class="pagenation">
-
-
 					{%for i in page.paginator.page_range%}
 					<a href="/user_center/user_center_order/?page={{i}}" class="{%if page.number == i%}active{%endif%}">{{i}}</a>
 					{%endfor%}

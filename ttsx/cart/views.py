@@ -48,7 +48,7 @@ def get_count(request):
         count = CartInfo.objects.filter(user=userinfo[0]).count()
         return JsonResponse({'count': count})
     else:
-        return JsonResponse({})
+        return JsonResponse({'count': 0})
 
 def delete(request):
     cid = request.GET.get('cid')
